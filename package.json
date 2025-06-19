@@ -2,10 +2,7 @@
   "name": "getting-americans",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "start": "node index.js",
-"postinstall": "node node_modules/playwright/cli.js install chromium"
-},
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,5 +13,9 @@
     "express-rate-limit": "^7.5.0",
     "playwright": "^1.53.1"
   },
-  "description": ""
+  "description": "",
+  "scripts": {
+  "start": "node index.js",
+"postinstall": "node node_modules/playwright/cli.js install chromium"
+}
 }
