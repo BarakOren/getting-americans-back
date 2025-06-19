@@ -15,7 +15,6 @@
   },
   "description": "",
   "scripts": {
-  "start": "node index.js",
-"postinstall": "node node_modules/playwright/cli.js install chromium"
+  "start": "node index.js"
 }
 }
