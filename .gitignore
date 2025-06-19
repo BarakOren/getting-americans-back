@@ -1,4 +1,4 @@
-node_modules/
+echo "node_modules/
 .cache/
 puppeteer/
-*.log
+" > .gitignore
