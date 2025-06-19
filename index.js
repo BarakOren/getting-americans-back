@@ -1,18 +1,14 @@
 // backend/index.js
-const puppeteer = require('puppeteer');
-
-const PORT = process.env.PORT || 3001;
 
 const express = require("express");
 const bodyParser = require("body-parser");
-// const chromium = require('chromium');
-
 const cors = require("cors");
-
+const { chromium } = require("playwright");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// List of common American names
 const americanNames = [
   "john", "michael", "david", "james", "robert", "daniel", "brian",
   "jason", "kevin", "william", "ryan", "mark", "joseph", "thomas", "richard",
@@ -30,25 +26,25 @@ app.post("/api/scrape", async (req, res) => {
   }
 
   try {
-    const browser = await puppeteer.launch({
-  headless: "new",
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-});
+    const browser = await chromium.launch({
+      headless: true,
+      args: ["--no-sandbox"]
+    });
 
     const page = await browser.newPage();
-    await page.goto("https://www.instagram.com/accounts/login/", { waitUntil: "networkidle2" });
+    await page.goto("https://www.instagram.com/accounts/login/", { waitUntil: "networkidle" });
 
-    await page.type('input[name="username"]', username, { delay: 100 });
-    await page.type('input[name="password"]', password, { delay: 100 });
-    await page.keyboard.press("Enter");
+    // Login
+    await page.fill('input[name="username"]', username);
+    await page.fill('input[name="password"]', password);
+    await page.press('input[name="password"]', "Enter");
+    await page.waitForLoadState("networkidle");
 
-    await page.waitForNavigation({ waitUntil: "networkidle2" });
+    // Go to post
+    await page.goto(postUrl, { waitUntil: "networkidle" });
+    await page.waitForTimeout(5000);
 
-    await new Promise(r => setTimeout(r, 3000));
-
-    await page.goto(postUrl, { waitUntil: "networkidle2" });
-    await new Promise(r => setTimeout(r, 5000));
-
+    // Extract usernames from comments
     const usernames = await page.$$eval('a[href^="/"][role="link"]', anchors =>
       [...new Set(anchors.map(a => a.textContent.trim()))].filter(u => u.length > 0)
     );
@@ -68,4 +64,5 @@ app.post("/api/scrape", async (req, res) => {
   }
 });
 
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
