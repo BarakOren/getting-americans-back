@@ -16,6 +16,7 @@
   "description": "",
   "scripts": {
   "start": "node index.js",
-  "postinstall": "npx playwright install --with-deps chromium"
+"postinstall": "chmod +x ./node_modules/.bin/playwright && npx playwright install --with-deps chromium"
+
 }
 }
