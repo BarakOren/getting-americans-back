@@ -2,7 +2,6 @@
   "name": "getting-americans",
   "version": "1.0.0",
   "main": "index.js",
-
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,8 +14,6 @@
   },
   "description": "",
   "scripts": {
-  "start": "node index.js",
-"postinstall": "chmod +x ./node_modules/.bin/playwright && npx playwright install --with-deps chromium"
-
-}
+    "start": "node index.js"
+  }
 }
