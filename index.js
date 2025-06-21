@@ -34,6 +34,9 @@ app.post("/api/scrape", async (req, res) => {
     const page = await browser.newPage();
     await page.goto("https://www.instagram.com/accounts/login/", { waitUntil: "networkidle" });
 
+page.setDefaultTimeout(120000);           // wait up to 120s for selectors
+page.setDefaultNavigationTimeout(120000); // wait up to 120s for navigation
+
     // Login
     await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', password);
