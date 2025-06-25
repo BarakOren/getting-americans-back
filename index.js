@@ -7,16 +7,12 @@ const { chromium } = require("playwright");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+import { americanNames } from "./americanNames.js"; // Import the list of common American names
+// http://localhost:3001/api/scrape
+// https://getting-americans-back-2.onrender.com/api/scrape
+
 
 // List of common American names
-const americanNames = [
-  "john", "michael", "david", "james", "robert", "daniel", "brian",
-  "jason", "kevin", "william", "ryan", "mark", "joseph", "thomas", "richard",
-  "anthony", "steven", "charles", "matthew", "justin", "zach", "peter",
-  "scott", "paul", "alex", "andrew", "brandon", "ben", "sam", "tom",
-  "chris", "nick", "jesse", "tyler", "tim", "greg", "jeff", "kyle",
-  "nathan", "sean", "eric", "ron", "jake"
-];
 
 app.post("/api/scrape", async (req, res) => {
   const { username, password, postUrl } = req.body;
